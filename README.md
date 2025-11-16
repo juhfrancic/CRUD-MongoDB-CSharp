@@ -18,6 +18,7 @@ Para isso, utilize duas collections no MongoDB:
 -Utilize o driver oficial do MongoDB para C# para realizar a conexão e operações.
 
 02. Estrutura das Collections
+
 *Authors
 -Deve conter pelo menos os campos:
 -Id (identificador único gerado automaticamente)
