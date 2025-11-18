@@ -16,7 +16,6 @@ Além disso, você irá trabalhar com duas collections relacionadas, exercitando
 ✅ Requisitos
 01. Configuração
   -Configure e inicialize o banco de dados MongoDB localmente.
-
   -Utilize o driver oficial do MongoDB para C# para realizar a conexão e operações.
 
 02. Estrutura das Collections
