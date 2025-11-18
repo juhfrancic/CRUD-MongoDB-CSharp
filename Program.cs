@@ -4,6 +4,7 @@ using MongoDB.Driver;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography.X509Certificates;
+using System.Threading.Tasks;
 
 await RunAsync();
 
@@ -133,6 +134,34 @@ async Task RunAsync()
         Console.WriteLine("Book deleted!");
     }
 
+    async Task ShowAuthorsWithBooks(IMongoCollection<Author> collectionAuthor,
+                          IMongoCollection<Book> collectionBook)
+    {
+        var authors = await collectionAuthor.Find(_ => true).ToListAsync();
+        var books = await collectionBook.Find(_ => true).ToListAsync();
+
+        foreach (var a in authors)
+        {
+            var booksOfAuthors = books.Where(b => b.AuthorId == a.Id).ToList();
+
+            if (booksOfAuthors.Count() > 0)
+            {
+                Console.WriteLine("---Author and their book---");
+                Console.WriteLine($"Author: {a.Name}");
+                foreach (var b in booksOfAuthors)
+                {
+                    Console.WriteLine($"Book:{b.Title}");
+                }
+                Console.WriteLine("---------------------------\n");
+            }
+            else
+            {
+                Console.WriteLine($"Author {a.Name} has no books registered");
+            }
+        }
+    }
+    ;
+
     //--------------------------------------------Switch------------------------------------------------
     int optionAuthor;
     do
@@ -184,7 +213,8 @@ async Task RunAsync()
         Console.WriteLine("2. List books");
         Console.WriteLine("3. Update book's title");
         Console.WriteLine("4. Delete one book");
-        Console.WriteLine("5. Exit the authors menu, and close the program");
+        Console.WriteLine("5. Show authors and their books");
+        Console.WriteLine("6. Exit the authors menu, and close the program");
 
         optionBook = int.Parse(Console.ReadLine());
         switch (optionBook)
@@ -208,35 +238,17 @@ async Task RunAsync()
                 await DeleteBook(collectionBook);
                 break;
             case 5:
+                await ShowAuthorsWithBooks(collectionAuthor, collectionBook);
+                break;
+            case 6:
                 Console.WriteLine("Exiting the books menu...");
                 break;
             default:
                 Console.WriteLine("Invalid option, try again");
                 break;
         }
-    } while (optionBook != 5);
+    } while (optionBook != 6);
 }
-
-
-//foreach (var a in authors)  //Authores e seus livros
-//{
-//    var booksOfAuthors = books.Where(b => b.AuthorId == a.Id).ToList();
-
-//    if (booksOfAuthors.Count() > 0)
-//    {
-//        Console.WriteLine("---Author and their book---");
-//        Console.WriteLine($"Author: {a.Name}");
-//        foreach (var b in booksOfAuthors)
-//        {
-//            Console.WriteLine($"Book:{b.Title}");
-//        }
-//        Console.WriteLine("---------------------------\n");
-//    }
-//    else
-//    {
-//        Console.WriteLine($"Author {a.Name} has no books registered");
-//    }
-//}
 
 //Para deletar tudo da lista:
 //await collectionAuthor.DeleteManyAsync(Builders<Author>.Filter.Empty); 
@@ -244,7 +256,7 @@ async Task RunAsync()
 //    //await collectionBook.DeleteManyAsync(Builders<Book>.Filter.Empty);
 //    //Console.WriteLine("Books sucessfully deleted!");
 
-#region
+#region TestesAntigos
 //--------------------------------------------------------------------------------------------------
 //    await collectionAuthor.UpdateOneAsync(
 //        a => a.Id == NewAuthors[1].Id,
