@@ -252,9 +252,11 @@ async Task RunAsync()
 
 //Para deletar tudo da lista:
 //await collectionAuthor.DeleteManyAsync(Builders<Author>.Filter.Empty); 
-//    //Console.WriteLine("Authors sucessfully deleted!");
-//    //await collectionBook.DeleteManyAsync(Builders<Book>.Filter.Empty);
-//    //Console.WriteLine("Books sucessfully deleted!");
+//Console.WriteLine("Authors sucessfully deleted!");
+//await collectionBook.DeleteManyAsync(Builders<Book>.Filter.Empty);
+//Console.WriteLine("Books sucessfully deleted!");
+
+
 
 #region TestesAntigos
 //--------------------------------------------------------------------------------------------------
